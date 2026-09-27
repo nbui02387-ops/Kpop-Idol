@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CORTIS ✦</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+  font-family:Arial,sans-serif;
+  background:#08070d;
+  color:white;
+  overflow-x:hidden;
+}
+
+body{
+  background:
+    radial-gradient(circle at 50% 20%,#3b235d 0%,#110d19 35%,#050509 75%);
+}
+
+/* ánh sáng nền */
+body::before{
+  content:"";
+  position:fixed;
+  inset:-20%;
+  background:
+    radial-gradient(circle,#b77cff22 0 2px,transparent 3px),
+    radial-gradient(circle,#ffffff18 0 1px,transparent 2px);
+  background-size:90px 90px,55px 55px;
+  animation:stars 18s linear infinite;
+  pointer-events:none;
+}
+
+@keyframes stars{
+  from{transform:translateY(0)}
+  to{transform:translateY(-90px)}
+}
+
+/* INTRO */
+#intro{
+  position:fixed;
+  inset:0;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  background:#07060b;
+  transition:opacity 1.2s ease,visibility 1.2s;
+}
+
+#intro.hide{
+  opacity:0;
+  visibility:hidden;
+}
+
+.logo{
+  font-size:clamp(55px,12vw,130px);
+  letter-spacing:14px;
+  font-weight:800;
+  text-shadow:
+    0 0 10px #fff,
+    0 0 35px #bd76ff,
+    0 0 80px #7e35bd;
+  animation:logoIn 2s ease;
+}
+
+.small{
+  margin-top:15px;
+  letter-spacing:6px;
+  color:#d9b9ff;
+  animation:fade 2s ease;
+}
+
+.enter{
+  margin-top:45px;
+  padding:14px 38px;
+  border:1px solid #d4a5ff;
+  border-radius:40px;
+  color:white;
+  background:#ffffff0d;
+  cursor:pointer;
+  letter-spacing:3px;
+  transition:.3s;
+}
+
+.enter:hover{
+  background:#c978ff33;
+  box-shadow:0 0 30px #a952ff;
+  transform:scale(1.05);
+}
+
+@keyframes logoIn{
+  from{opacity:0;transform:scale(.75);filter:blur(15px)}
+  to{opacity:1;transform:scale(1);filter:blur(0)}
+}
+
+@keyframes fade{
+  from{opacity:0}
+  to{opacity:1}
+}
+
+/* MAIN */
+main{
+  max-width:1200px;
+  margin:auto;
+  padding:80px 20px;
+}
+
+header{
+  text-align:center;
+  min-height:55vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+header h1{
+  font-size:clamp(60px,12vw,150px);
+  margin:0;
+  letter-spacing:18px;
+  text-shadow:0 0 45px #a74cff;
+}
+
+header p{
+  color:#d8c2ed;
+  letter-spacing:5px;
+}
+
+/* EDIT AREA */
+.edit{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.edit-title{
+  text-align:center;
+  font-size:35px;
+  letter-spacing:8px;
+  margin-bottom:45px;
+}
+
+/* MEMBERS */
+.members{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:18px;
+}
+
+.member{
+  position:relative;
+  height:520px;
+  overflow:hidden;
+  border-radius:24px;
+  background:#16131c;
+  border:1px solid #ffffff1c;
+  cursor:pointer;
+  transform:translateY(40px);
+  opacity:0;
+  animation:appear 1s forwards;
+}
+
+.member:nth-child(1){animation-delay:.1s}
+.member:nth-child(2){animation-delay:.25s}
+.member:nth-child(3){animation-delay:.4s}
+.member:nth-child(4){animation-delay:.55s}
+.member:nth-child(5){animation-delay:.7s}
+
+@keyframes appear{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.member img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform .8s ease,filter .8s ease;
+}
+
+.member::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(
+      to top,
+      #000b 0%,
+      transparent 55%
+    );
+}
+
+.member:hover img{
+  transform:scale(1.08);
+  filter:brightness(1.15);
+}
+
+.member span{
+  position:absolute;
+  z-index:2;
+  bottom:22px;
+  left:20px;
+  font-size:18px;
+  letter-spacing:4px;
+}
+
+/* MUSIC */
+.music{
+  position:fixed;
+  right:25px;
+  bottom:25px;
+  z-index:15;
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  border:1px solid #d19aff;
+  background:#180e25cc;
+  color:white;
+  cursor:pointer;
+  box-shadow:0 0 20px #9c4fff66;
+}
+
+.music.playing{
+  animation:spin 3s linear infinite;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+/* POPUP */
+.popup{
+  position:fixed;
+  inset:0;
+  z-index:30;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:#000b;
+  backdrop-filter:blur(8px);
+}
+
+.popup.show{
+  display:flex;
+}
+
+.popup-box{
+  width:min(600px,90%);
+  padding:20px;
+  border-radius:25px;
+  background:#15111d;
+  border:1px solid #c785ff88;
+  box-shadow:0 0 60px #9b4bff55;
+  animation:pop .45s ease;
+}
+
+.popup-box img{
+  width:100%;
+  max-height:70vh;
+  object-fit:contain;
+  border-radius:18px;
+}
+
+.close{
+  float:right;
+  font-size:25px;
+  cursor:pointer;
+  padding:5px 10px;
+}
+
+@keyframes pop{
+  from{opacity:0;transform:scale(.85)}
+  to{opacity:1;transform:scale(1)}
+}
+
+/* mobile */
+@media(max-width:900px){
+  .members{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .member{
+    height:430px;
+  }
+}
+
+@media(max-width:550px){
+  main{
+    padding:40px 14px;
+  }
+
+  header h1{
+    letter-spacing:8px;
+  }
+
+  .members{
+    grid-template-columns:1fr;
+  }
+
+  .member{
+    height:500px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- INTRO -->
+<section id="intro">
+  <div class="logo">CORTIS</div>
+  <div class="small">A LITTLE EDIT MADE WITH LOVE ✦</div>
+  <button class="enter" onclick="enterSite()">ENTER ✦</button>
+</section>
+
+<!-- MUSIC -->
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<button class="music" id="musicBtn" onclick="toggleMusic()">♫</button>
+
+<main>
+
+<header>
+  <h1>CORTIS</h1>
+  <p>✦ THE MOMENTS ✦</p>
+</header>
+
+<section class="edit">
+
+  <div class="edit-title">✦ MEMBERS ✦</div>
+
+  <div class="members">
+
+    <div class="member" onclick="openMember(0)">
+      <img src="member1.jpg">
+      <span>MEMBER 01</span>
+    </div>
+
+    <div class="member" onclick="openMember(1)">
+      <img src="member2.jpg">
+      <span>MEMBER 02</span>
+    </div>
+
+    <div class="member" onclick="openMember(2)">
+      <img src="member3.jpg">
+      <span>MEMBER 03</span>
+    </div>
+
+    <div class="member" onclick="openMember(3)">
+      <img src="member4.jpg">
+      <span>MEMBER 04</span>
+    </div>
+
+    <div class="member" onclick="openMember(4)">
+      <img src="member5.jpg">
+      <span>MEMBER 05</span>
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+  <div class="popup-box">
+    <div class="close" onclick="closeMember()">×</div>
+    <img id="popupImg">
+  </div>
+</div>
+
+<script>
+
+const intro = document.getElementById("intro");
+const music = document.getElementById("music");
+const musicBtn = document.getElementById("musicBtn");
+
+function enterSite(){
+
+  intro.classList.add("hide");
+
+  music.play().then(()=>{
+    musicBtn.classList.add("playing");
+  }).catch(()=>{});
+
+}
+
+function toggleMusic(){
+
+  if(music.paused){
+
+    music.play();
+    musicBtn.classList.add("playing");
+
+  }else{
+
+    music.pause();
+    musicBtn.classList.remove("playing");
+
+  }
+
+}
+
+const images = [
+  "member1.jpg",
+  "member2.jpg",
+  "member3.jpg",
+  "member4.jpg",
+  "member5.jpg"
+];
+
+function openMember(index){
+
+  document.getElementById("popupImg").src = images[index];
+
+  document.getElementById("popup").classList.add("show");
+
+}
+
+function closeMember(){
+
+  document.getElementById("popup").classList.remove("show");
+
+}
+
+</script>
+
+</body>
+</html>
